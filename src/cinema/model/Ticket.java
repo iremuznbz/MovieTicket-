@@ -46,8 +46,8 @@ public class Ticket {
 
 	@Override
 	public String toString() {
-		return "Ticket [id=" + id + ", hall=" + hall + ", hour=" + hour
-				+ ", row=" + row + ", coloumn=" + coloumn + "]";
+		return "***Ticket****\nid=" + id + "\nhall=" + hall.getName() + "\nhour=" + hour
+				+ "\nrow=" + row + "\ncoloumn=" + coloumn + "\n*************";
 	}
 
 }
