@@ -11,6 +11,7 @@ public class Main {
 		ArrayList<Hall> hallList = new ArrayList<Hall>();
 		ArrayList<Ticket> ticketList = new ArrayList<Ticket>();
 		Hour[] hours = Hour.values();
+		boolean available = false;
 
 		int choice;
 		int rows, cols;
@@ -65,29 +66,50 @@ public class Main {
 								+ "x"
 								+ Hall.findHall(hallList, selectedHallName)
 										.getRows());
-						System.out
-								.println("Enter the chair of rows and coloumns");
 
-						// salon size ýna göre boundlarý aþmasýn
+						do {
+							System.out
+									.println("Enter the chair of rows and coloumns");
+							String chair = myScanner.next();
+							String[] splitted = chair.split("x");
 
+							if ((Integer.parseInt(splitted[0]) <= Integer
+									.valueOf(Hall.findHall(hallList,
+											selectedHallName).getRows()))
+									&& (Integer.parseInt(splitted[1]) <= Integer
+											.valueOf(Hall.findHall(hallList,
+													selectedHallName).getCols()))) {
+								available = false;
+								Ticket ticket = new Ticket(Hall.findHall(
+										hallList, selectedHallName),
+										selectedHour,
+										(Integer.parseInt(splitted[0])),
+										(Integer.parseInt(splitted[1])));
+								System.out.println(ticket.toString());
+								ticketList.add(ticket);
+								Hall.findHall(hallList, selectedHallName)
+										.reserveChair(
+												Integer.parseInt(splitted[0]),
+												Integer.parseInt(splitted[1]));
+							} else {
+								available = true;
+								System.out.println("Bound exceed");
+							}
+						} while (available);
+
+
+						//saat seçme zýmbýrtýsýný daha usable hale getirilecek.
+						
 						// seçtiði koltuk doluysa bi daha seçtir buraya bi while
 						// loop
 
 						// seçilen seansýn koltuðu boþ mu diye bak
+						// Hash map ile array kullan seanslar key olsun key e göre two
+						// dimesional array koltuklarý listelesin
+						
+						// database connection saðla array add lerin yanýnda database
+						// update edilsin
 
-						String chair = myScanner.next();
-						String[] splitted = chair.split("x");
-
-						Ticket ticket = new Ticket(Hall.findHall(hallList,
-								selectedHallName), selectedHour,
-								(Integer.parseInt(splitted[0])),
-								(Integer.parseInt(splitted[1])));
-
-						System.out.println(ticket.toString());
-						ticketList.add(ticket);
-						Hall.findHall(hallList, selectedHallName).reserveChair(
-								Integer.parseInt(splitted[0]),
-								Integer.parseInt(splitted[1]));
 					} else
 						System.out.println("Enter correctly");
 				} else
